@@ -2,6 +2,7 @@
 #define __DYNAMIC_C__
 
 #include <stdio.h>
+#include <dlfcn.h>
 
 typedef struct {
     FILE *f;
