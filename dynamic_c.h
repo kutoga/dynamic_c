@@ -14,10 +14,10 @@ bool dc_init(dynamic_c_t *dc);
 
 /*
  * Compile the code and return a handle for the created dynamic library.
- * If args is NULL, the arguments "-O3 -Wall -Wextra -Werror" are passed to
- * the C-compiler. Otherwise it is expected that "args" contains compiler
+ * If "optional_args" is NULL, the arguments "-O3 -Wall -Wextra -Werror" are passed to
+ * the C-compiler. Otherwise it is expected that "optional_args" contains compiler
  * arguments plus a final NULL value which indicates the end.
  */
-void *dc_finish(dynamic_c_t *dc, const char **args);
+void *dc_finish(dynamic_c_t *dc, const char **optional_args);
 
 #endif

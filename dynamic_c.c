@@ -21,20 +21,28 @@ static inline int count_args(const char **args)
     return count;
 }
 
-static inline void compile_c_to_dynamic_lib(const char *source_name, const char *dl_file, const char **args)
+static inline void set_compile_args(const char ***target_args, size_t *target_args_count, const char **optional_args)
 {
-    const char *default_args[] = {"-O3", "-Wall", "-Wextra", "-Werror"};
-    int args_count;
-    if (args == NULL)
+    static const char *default_args[] = {"-O3", "-Wall", "-Wextra", "-Werror"};
+    if (optional_args == NULL)
     {
-        args = default_args;
-        args_count = DC_ARR_LENGTH(default_args);
+        *target_args       = default_args;
+        *target_args_count = DC_ARR_LENGTH(default_args);
     }
     else
     {
-        args_count = count_args(args);
+        *target_args       = optional_args;
+        *target_args_count = count_args(optional_args);
     }
-    const char *cc_base_args[] = {DC_C_COMPILER, source_name, "-o", dl_file, "-fPIC", "-shared"};
+}
+
+static inline void compile_c_to_dynamic_lib(const char *source_name, const char *dl_file, const char **optional_args)
+{
+    const char **args;
+    size_t args_count;
+    set_compile_args(&args, &args_count, optional_args);
+
+    const char *cc_base_args[]      = {DC_C_COMPILER, source_name, "-o", dl_file, "-fPIC", "-shared"};
     const size_t cc_base_args_count = DC_ARR_LENGTH(cc_base_args);
 
     char *cc_args[cc_base_args_count + args_count + 1];
@@ -50,6 +58,12 @@ static inline void compile_c_to_dynamic_lib(const char *source_name, const char 
     const int cc_pid = fork();
     if (cc_pid == 0)
     {
+        int i = 0;
+        while (cc_args[i] != NULL) {
+            printf("%s ", cc_args[i]);
+            ++i;
+        }
+        printf("\n");
         execvp(DC_C_COMPILER, cc_args);
     }
     else

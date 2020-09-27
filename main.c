@@ -13,10 +13,12 @@ int main()
         fprintf(stderr, "Cannot initialize dynamic C!\n");
         return 1;
     }
-    fprintf(dc.f, "void f(int n) {");
-    fprintf(dc.f, "    *(int *)%ld += n;", (long)&my_value);
-    fprintf(dc.f, "}");
+    fprintf(dc.f, "void f(int n) {                              \n");
+    fprintf(dc.f, "    *(int *)%ld += n;                        \n", (long)&my_value);
+    fprintf(dc.f, "}                                            \n");
     void *dl_handle = dc_finish(&dc, NULL);
+    // const char *args[] = {"-O0", "-g3", NULL};
+    // void *dl_handle = dc_finish(&dc, args);
     if (dl_handle == NULL)
     {
         fprintf(stderr, "Cannot create dynamic linked library!\n");

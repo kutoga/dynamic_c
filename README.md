@@ -2,11 +2,16 @@
 
 DynamicC is a simple and stupid library with just two API calls (`dc_init` and `dc_finish`). This lib can be used
 to compile and use C code at runtime. This might heavily improve the performance of some
-code (compared to a generic programmed solution). This should only be done in edge cases
-and after a lot of profiling.
+code (compared to a generic programmed solution). **NOTE: This should only be done in edge cases
+and after a lot of profiling, because it can make testing harder and adds a runtime-dependency for
+a C-compiler.**
 
 How to use it? Just add `dynamic_c.c` and `dynamic_c.h` to your project and use it.
 It is free to use and you do not even have to mention the author of the library.
+
+The function `dc_finish` accepts C-compiler arguments as a second parameter. If it
+is `NULL`, then `-O3 -Wall -Wextra -Werror` is used. Otherwise it is expected that
+the arguments are followed by `NULL` to indicate the end of the argument list.
 
 Example (execute `make && ./main`):
 
@@ -26,10 +31,12 @@ int main()
         fprintf(stderr, "Cannot initialize dynamic C!\n");
         return 1;
     }
-    fprintf(dc.f, "void f(int n) {");
-    fprintf(dc.f, "    *(int *)%ld += n;", (long)&my_value);
-    fprintf(dc.f, "}");
+    fprintf(dc.f, "void f(int n) {                              \n");
+    fprintf(dc.f, "    *(int *)%ld += n;                        \n", (long)&my_value);
+    fprintf(dc.f, "}                                            \n");
     void *dl_handle = dc_finish(&dc, NULL);
+    // const char *args[] = {"-O0", "-g3", NULL};
+    // void *dl_handle = dc_finish(&dc, args);
     if (dl_handle == NULL)
     {
         fprintf(stderr, "Cannot create dynamic linked library!\n");
