@@ -36,13 +36,13 @@ static inline void set_compile_args(const char ***target_args, size_t *target_ar
     }
 }
 
-static inline void compile_c_to_dynamic_lib(const char *source_name, const char *dl_file, const char **optional_args)
+static inline void compile_c_to_dynamic_lib(const char *source_file, const char *dl_file, const char **optional_args)
 {
     const char **args;
     size_t args_count;
     set_compile_args(&args, &args_count, optional_args);
 
-    const char *cc_base_args[]      = {DC_C_COMPILER, source_name, "-o", dl_file, "-fPIC", "-shared"};
+    const char *cc_base_args[]      = {DC_C_COMPILER, source_file, "-o", dl_file, "-fPIC", "-shared"};
     const size_t cc_base_args_count = DC_ARR_LENGTH(cc_base_args);
 
     char *cc_args[cc_base_args_count + args_count + 1];
