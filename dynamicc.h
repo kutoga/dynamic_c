@@ -11,6 +11,7 @@ typedef struct {
 
 dynamic_c_t dc_init();
 
-void *dc_finish(dynamic_c_t *dc);
+// cc_args: Compiler arguments. If equal to NULL: Defaults to -Ofast -Wall -Wextra -Werror
+void *dc_finish(dynamic_c_t *dc,);
 
 #endif
