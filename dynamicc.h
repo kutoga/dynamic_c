@@ -2,16 +2,22 @@
 #define __DYNAMIC_C__
 
 #include <stdio.h>
+#include <stdbool.h>
 #include <dlfcn.h>
 
 typedef struct {
     FILE *f;
-    char _filename[64];
+    char _c_filename[64];
 } dynamic_c_t;
 
-dynamic_c_t dc_init();
+bool dc_init(dynamic_c_t *dc);
 
-// cc_args: Compiler arguments. If equal to NULL: Defaults to -Ofast -Wall -Wextra -Werror
-void *dc_finish(dynamic_c_t *dc,);
+/*
+ * Compile the code and return a handle for the created dynamic library.
+ * If args is NULL, the arguments "-O3 -Wall -Wextra -Werror" are passed to
+ * the C-compiler. Otherwise it is expected that "args" contains compiler
+ * arguments plus a final NULL value which indicates the end.
+ */
+void *dc_finish(dynamic_c_t *dc, const char **args);
 
 #endif

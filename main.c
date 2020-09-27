@@ -1,23 +1,37 @@
 #include "dynamicc.h"
 
-int my_int = 12;
+static int my_value = 0;
+
+typedef void (*f_t)(int n);
 
 int main()
 {
-    dynamic_c_t cc = dc_init();
-    fprintf(cc.f, "#include <stdio.h>\n");
-    fprintf(cc.f, "int f() {");
-    fprintf(cc.f, "    printf(\"hello world!\\n\");");
-    fprintf(cc.f, "    ++*(int *)%ld;", (long)&my_int);
-    fprintf(cc.f, "    return 0;");
-    fprintf(cc.f, "}");
-    void *so_handle = dc_finish(&cc);
+    /* Write C-code. */
+    dynamic_c_t dc;
+    if (!dc_init(&dc))
+    {
+        fprintf(stderr, "Cannot initialize dynamic C!\n");
+        return 1;
+    }
+    fprintf(dc.f, "void f(int n) {");
+    fprintf(dc.f, "    *(int *)%ld += n;", (long)&my_value);
+    fprintf(dc.f, "}");
+    void *dl_handle = dc_finish(&dc, NULL);
+    if (dl_handle == NULL)
+    {
+        fprintf(stderr, "Cannot create dynamic linked library!\n");
+        return 1;
+    }
 
-    int (*f)() =  dlsym(so_handle, "f");
-    printf("%p\n", f);
-    printf("my_int = %d\n", my_int);
-    f();
-    printf("my_int = %d\n", my_int);
+    /* Get the fnction pointer to the compiled functin "f" */
+    f_t f = dlsym(dl_handle, "f");
 
-    dlclose(so_handle);
+    for (int i = 0; i < 5; ++i)
+    {
+        f(i);
+        printf("my_value = %d\n", my_value);
+    }
+
+    /* Finally, close the dynamic linked library */
+    dlclose(dl_handle);
 }
