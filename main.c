@@ -23,7 +23,7 @@ int main()
         return 1;
     }
 
-    /* Get the fnction pointer to the compiled functin "f" */
+    /* Get the function pointer to the compiled functin "f" */
     f_t f = dlsym(dl_handle, "f");
 
     /* Use the function. */

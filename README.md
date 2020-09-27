@@ -1,17 +1,17 @@
 # DynamicC
 
 DynamicC is a simple and stupid library with just two API calls (`dc_init` and `dc_finish`). This lib can be used
-to compile code at runtime. This might heavily improve the performance of some
+to compile and use C code at runtime. This might heavily improve the performance of some
 code (compared to a generic programmed solution). This should only be done in edge cases
 and after a lot of profiling.
 
-How to use it? Just add `dynamicc.c` and `dynamicc.h` to your project and use it.
+How to use it? Just add `dynamic_c.c` and `dynamic_c.h` to your project and use it.
 It is free to use and you do not even have to mention the author of the library.
 
 Example (execute `make && ./main`):
 
 ```c
-#include "dynamicc.h"
+#include "dynamic_c.h"
 
 static int my_value = 0;
 
@@ -36,9 +36,10 @@ int main()
         return 1;
     }
 
-    /* Get the fnction pointer to the compiled functin "f" */
+    /* Get the function pointer to the compiled functin "f" */
     f_t f = dlsym(dl_handle, "f");
 
+    /* Use the function. */
     for (int i = 0; i < 5; ++i)
     {
         f(i);
