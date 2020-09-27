@@ -58,12 +58,6 @@ static inline void compile_c_to_dynamic_lib(const char *source_name, const char 
     const int cc_pid = fork();
     if (cc_pid == 0)
     {
-        int i = 0;
-        while (cc_args[i] != NULL) {
-            printf("%s ", cc_args[i]);
-            ++i;
-        }
-        printf("\n");
         execvp(DC_C_COMPILER, cc_args);
     }
     else
