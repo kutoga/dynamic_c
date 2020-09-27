@@ -1,4 +1,4 @@
-#include "dynamicc.h"
+#include "dynamic_c.h"
 
 static int my_value = 0;
 
@@ -26,6 +26,7 @@ int main()
     /* Get the fnction pointer to the compiled functin "f" */
     f_t f = dlsym(dl_handle, "f");
 
+    /* Use the function. */
     for (int i = 0; i < 5; ++i)
     {
         f(i);

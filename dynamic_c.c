@@ -1,12 +1,9 @@
 #include <stdlib.h>
 #include <string.h>
-#include <stdbool.h>
 #include <unistd.h>
-#include <dlfcn.h>
-#include <errno.h>
 #include <sys/wait.h>
 #include <assert.h>
-#include "dynamicc.h"
+#include "dynamic_c.h"
 
 #define DC_C_FILE_SUFFIX                        ".c"
 #define DC_DL_FILE_SUFFIX                       ".so"
