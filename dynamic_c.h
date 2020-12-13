@@ -20,4 +20,6 @@ bool dc_init(dynamic_c_t *dc);
  */
 void *dc_finish(dynamic_c_t *dc, const char **optional_args);
 
+#define DC_CODE(...)                        #__VA_ARGS__
+
 #endif
