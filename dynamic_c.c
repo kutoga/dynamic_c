@@ -23,7 +23,7 @@ static inline int count_args(const char **args)
 
 static inline void set_compile_args(const char ***target_args, size_t *target_args_count, const char **optional_args)
 {
-    static const char *default_args[] = {"-O3", "-Wall", "-Wextra", "-Werror"};
+    static const char *default_args[] = {"-O3", "-march=native", "-Wall", "-Wextra", "-Werror"};
     if (optional_args == NULL)
     {
         *target_args       = default_args;
