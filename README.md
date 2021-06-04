@@ -10,7 +10,7 @@ How to use it? Just add `dynamic_c.c` and `dynamic_c.h` to your project and use 
 It is free to use and you do not even have to mention the author of the library.
 
 The function `dc_finish` accepts C-compiler arguments as a second parameter. If it
-is `NULL`, then `-O3 -Wall -Wextra -Werror` is used. Otherwise it is expected that
+is `NULL`, then `-O3 -march=native -Wall -Wextra -Werror` is used. Otherwise it is expected that
 the arguments are followed by `NULL` to indicate the end of the argument list.
 
 Example (execute `make && ./main`):
